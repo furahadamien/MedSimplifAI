@@ -5,10 +5,12 @@ var objectId = require('mongodb').ObjectID;
 var assert = require('assert');
 const config = require('./config');
 const request = require('request');
+const uploadImage = require('./uploadImage');
+const AzureCognitive = require('./azureCognitive');
 
 var url = 'mongodb://localhost:27017/test';
 
-
+var tempstr = '';
 //TODO: connect to MongoDB here
 
 let subscriptionKey = config.Key;
@@ -18,7 +20,8 @@ if (!subscriptionKey) { throw new Error('Set your environment variables for your
 console.log(endpoint);
 let uriBase = endpoint + 'vision/v2.1/ocr';
 
-const imageUrl = 'https://metalbyexample.com/wp-content/uploads/figure-65.png';
+//const imageUrl = 'https://metalbyexample.com/wp-content/uploads/figure-65.png';
+const imageUrl ='https://image.slidesharecdn.com/leonardodavinci-140406121225-phpapp01/95/the-multiple-intelligences-of-leonardo-da-vinci-according-to-the-theory-of-howard-gardner-2-638.jpg';
 
 // Request parameters.
 const params = {
@@ -60,11 +63,13 @@ request.post(options, (error, response, body) => {
 
         let arr = str.split("\n");
         for(let i = 0; i < arr.length; i++){
-            console.log(arr[i]);
+            //console.log(arr[i]);
         }
 
 
   }
+  tempstr = str;
+  console.log(str);
 
 });
 
@@ -72,6 +77,7 @@ request.post(options, (error, response, body) => {
 router.get('/', function(req, res, next) {
   res.render('index');
 });
+
 
 router.get('/get-data', function(req, res, next) {
   var resultArray = [];
@@ -88,11 +94,23 @@ router.get('/get-data', function(req, res, next) {
   });
 });
 
+/**
+ * IMAGE upload
+ *  request from the client side
+ * 
+ */
+router.post('/imageupload', function(req, res, next){
+  uploadImage.create(req, res, function(status, data) {
+    //let response = responseHandler.prepareResponse(req, status, data);
+    res.status(status).json(req);
+  });
+})
+
 router.post('/insert', function(req, res, next) {
   var item = {
-    title: req.body.title,
-    content: req.body.content,
-    author: req.body.author
+    title: tempstr,
+    content: tempstr,
+    author: tempstr
   };
 
   mongo.connect(url, function(err, db) {
