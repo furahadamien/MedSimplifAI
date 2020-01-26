@@ -1,8 +1,0 @@
-#!/usr/bin/env node
-
-
-const API = require('../lib/medsimplifai');
-
-const options = {};
-
-let app = new API(options);
