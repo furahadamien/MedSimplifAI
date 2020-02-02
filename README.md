@@ -1,9 +1,11 @@
-&nbsp;&nbsp;&nbsp;&nbsp;MedsimplifAI
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MedsimplifAI
 =================================================
 An AI-powered application to close the gap on health illiteracy
 
-what is the name
+What's in a name?
 -----------------
+Our app is only the beginning of AI-driven personalized medicine
+
 Client
 ------
 
